@@ -7,7 +7,7 @@ from typing import Optional
 from typing import Sequence
 from typing import Tuple
 
-import json5
+import pyjson5
 
 
 def raise_duplicate_keys(
@@ -31,7 +31,7 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
     for filename in args.filenames:
         with open(filename, 'rb') as f:
             try:
-                json5.load(f, object_pairs_hook=raise_duplicate_keys)
+                pyjson5.load(f, object_pairs_hook=raise_duplicate_keys)
             except ValueError as exc:
                 print(f'{filename}: Failed to json decode ({exc})')
                 retval = 1
