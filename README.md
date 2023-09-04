@@ -16,7 +16,7 @@ In `.pre-commit-config.yaml` under the `repos:` section, add the following:
 
 ```yaml
 - repo: https://gitlab.com/lansharkconsulting/public/check-pyjson5
-  rev: v1.0.0
+  rev: v1.0.1
   hooks:
   - id: check-pyjson5
 ```
