@@ -80,9 +80,9 @@ def raise_duplicate_keys(text: str) -> None:
                 i += 1
             else:
                 while (
-                        i < n and
-                        text[i] not in _DELIMITERS and
-                        not _is_space(text[i])
+                    i < n
+                    and text[i] not in _DELIMITERS
+                    and not _is_space(text[i])
                 ):
                     i += 1
             if expecting_key:

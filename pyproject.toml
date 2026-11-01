@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "check-pyjson5"
 version = "1.0.2"
-description = "pre-commit hook to check json files for syntax parseable as json5 (with comments)"
+description = "pre-commit hook to check json and json5 files for syntax parseable as json5 (with comments)"
 authors = ["Ben Mares <services-check-json5@tensorial.com>", "Scott Sharkey <ssharkey@lanshark.com>"]
 license = "MIT"
 packages = [
@@ -9,11 +9,11 @@ packages = [
 ]
 
 [tool.poetry.dependencies]
-python = "^3.6.1"
-pyjson5 = "^1.6.4"
+python = ">=3.8"
+pyjson5 = ">=1.6.4,<3"
 
-[tool.poetry.dev-dependencies]
-pre-commit = "^2.15.0"
+[tool.poetry.group.dev.dependencies]
+pre-commit = ">=2.15.0"
 pytest = ">=7.0"
 
 [tool.poetry.scripts]
@@ -22,6 +22,24 @@ check_pyjson5 = "pre_commit_hooks.check_pyjson5:main"
 [tool.pytest.ini_options]
 pythonpath = ["pypackages"]
 testpaths = ["tests"]
+
+[tool.ruff]
+target-version = "py38"
+line-length = 79
+src = ["pypackages"]
+
+[tool.ruff.lint]
+select = ["E", "W", "F", "I", "UP", "B"]
+
+[tool.ruff.lint.per-file-ignores]
+# The source-attribution URL on the first line can't be wrapped.
+"pypackages/pre_commit_hooks/check_pyjson5.py" = ["E501"]
+
+[tool.ruff.lint.isort]
+force-single-line = true
+
+[tool.ruff.format]
+quote-style = "single"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

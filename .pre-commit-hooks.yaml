@@ -1,5 +1,5 @@
 -   id: check-pyjson5
-    name: check json5
+    name: check pyjson5
     description: checks json and json5 files for syntax parsable as json5 (with comments).
     entry: check_pyjson5
     language: python
