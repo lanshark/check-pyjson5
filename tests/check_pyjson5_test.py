@@ -45,6 +45,15 @@ def test_invalid(tmp_path, capsys, content):
     assert f'{f}: Failed to json decode' in capsys.readouterr().out
 
 
+def test_invalid_message_is_clean(tmp_path, capsys):
+    f = tmp_path / 'f.json'
+    f.write_text('{bad', encoding='utf-8')
+    assert main([str(f)]) == 1
+    assert capsys.readouterr().out == (
+        f"{f}: Failed to json decode (Unclosed b'object' starting near 1)\n"
+    )
+
+
 def test_invalid_utf8(tmp_path, capsys):
     f = tmp_path / 'f.json'
     f.write_bytes(b'{"a": "\xff"}')

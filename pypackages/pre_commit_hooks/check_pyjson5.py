@@ -103,7 +103,11 @@ def check_file(filename: str) -> Optional[str]:
         text = data.decode('utf-8')
         pyjson5.decode(text)
         raise_duplicate_keys(text)
-    except (pyjson5.Json5Exception, ValueError) as exc:
+    except pyjson5.Json5Exception as exc:
+        # str(exc) is a tuple repr of (message, partial result, extra);
+        # only the message is useful to the user.
+        return f'{filename}: Failed to json decode ({exc.message})'
+    except ValueError as exc:
         return f'{filename}: Failed to json decode ({exc})'
     return None
 
