@@ -1,6 +1,7 @@
 -   id: check-pyjson5
     name: check json5
-    description: checks json files for syntax parsable as json5 (with comments).
-    entry: check-pyjson5
+    description: checks json and json5 files for syntax parsable as json5 (with comments).
+    entry: check_pyjson5
     language: python
-    types: [json]
+    types_or: [json, json5]
+    minimum_pre_commit_version: '2.9.0'

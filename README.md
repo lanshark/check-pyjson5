@@ -2,7 +2,7 @@
 
 ## Introduction
 
-This is a pre-commit hook which verifies that `.json` files in a repository are valid [JSON5](https://json5.org/). The JSON5 format is similar to JSON, but it permits comments, trailing commas, and more. It is similar to the so-called "JSONC" (JSON with Comments) format, but JSON5 has an actual specification.
+This is a pre-commit hook which verifies that `.json` and `.json5` files in a repository are valid [JSON5](https://json5.org/). The JSON5 format is similar to JSON, but it permits comments, trailing commas, and more. It is similar to the so-called "JSONC" (JSON with Comments) format, but JSON5 has an actual specification.
 
 This hook is a drop-in replacement for the `check-json` hook from the [official pre-commit-hooks repository](https://pre-commit.com/hooks.html). A file succeeds when it can be parsed by the [pyjson5](https://pypi.org/project/pyjson5/) library, a fast JSON5 parser written in Cython. (In contrast, `check-json` uses the built-in [json library](https://docs.python.org/3/library/json.html).) Like `check-json`, the hook also rejects objects that contain duplicate keys. Keys are compared after decoding, so `"a"`, `'a'`, `a` and `"\u0061"` all count as the same key.
 
