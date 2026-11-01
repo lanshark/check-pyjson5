@@ -21,9 +21,12 @@ In `.pre-commit-config.yaml` under the `repos:` section, add the following:
 
 ## Development
 
+Requires [uv](https://docs.astral.sh/uv/) and Python 3.11 or later.
+
 ```sh
-poetry install
-poetry run pytest
+uv sync
+uv run pytest
+uv run pre-commit install  # optional: run linters on each commit
 ```
 
 ## Credits

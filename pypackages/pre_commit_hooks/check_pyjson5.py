@@ -1,9 +1,6 @@
 # Source: <https://github.com/pre-commit/pre-commit-hooks/blob/39ab2ed/pre_commit_hooks/check_json.py>  # noqa: E501
 import argparse
-from typing import List
-from typing import Optional
-from typing import Sequence
-from typing import Set
+from collections.abc import Sequence
 
 import pyjson5
 
@@ -31,7 +28,7 @@ def raise_duplicate_keys(text: str) -> None:
     """
     # One entry per open container: a set of seen keys for objects,
     # None for arrays.
-    stack: List[Optional[Set[str]]] = []
+    stack: list[set[str] | None] = []
     expecting_key = False
     i, n = 0, len(text)
 
@@ -95,7 +92,7 @@ def raise_duplicate_keys(text: str) -> None:
                 expecting_key = False
 
 
-def check_file(filename: str) -> Optional[str]:
+def check_file(filename: str) -> str | None:
     """Return an error message for ``filename``, or None if it is valid."""
     with open(filename, 'rb') as f:
         data = f.read()
@@ -112,7 +109,7 @@ def check_file(filename: str) -> Optional[str]:
     return None
 
 
-def main(argv: Optional[Sequence[str]] = None) -> int:
+def main(argv: Sequence[str] | None = None) -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument('filenames', nargs='*', help='Filenames to check.')
     args = parser.parse_args(argv)
