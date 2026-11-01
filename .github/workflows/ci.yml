@@ -1,0 +1,38 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ['3.11', '3.12', '3.13', '3.14']
+        pyjson5: ['1.*', '2.*']
+        exclude:
+          # pyjson5 1.x has no wheels for 3.14 and would build from source.
+          - python-version: '3.14'
+            pyjson5: '1.*'
+    name: py${{ matrix.python-version }} / pyjson5 ${{ matrix.pyjson5 }}
+    env:
+      UV_PYTHON: ${{ matrix.python-version }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v7
+      - run: uv sync --locked
+      - run: uv pip install "pyjson5==${{ matrix.pyjson5 }}"
+      - run: uv run --no-sync check_pyjson5 --help
+      - run: uv run --no-sync pytest
+
+  lint:
+    runs-on: ubuntu-latest
+    env:
+      UV_PYTHON: '3.13'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v7
+      - run: uv run --locked pre-commit run --all-files --show-diff-on-failure

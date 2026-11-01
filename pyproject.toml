@@ -1,23 +1,54 @@
-[tool.poetry]
+[project]
 name = "check-pyjson5"
-version = "1.0.1"
-description = "pre-commit hook to check json files for syntax parseable as json5 (with comments)"
-authors = ["Ben Mares <services-check-json5@tensorial.com>", "Scott Sharkey <ssharkey@lanshark.com>"]
+version = "1.0.2"
+description = "pre-commit hook to check json and json5 files for syntax parseable as json5 (with comments)"
+readme = "README.md"
+authors = [
+    { name = "Ben Mares", email = "services-check-json5@tensorial.com" },
+    { name = "Scott Sharkey", email = "ssharkey@lanshark.com" },
+]
 license = "MIT"
-packages = [
-    { include = "pre_commit_hooks", from = "pypackages" }
+license-files = ["LICENSE", "LICENSE.pre-commit-hooks"]
+requires-python = ">=3.11"
+dependencies = [
+    "pyjson5>=1.6.4,<3",
 ]
 
-[tool.poetry.dependencies]
-python = "^3.6.1"
-pyjson5 = "^1.6.4"
+[project.scripts]
+check_pyjson5 = "pre_commit_hooks.check_pyjson5:main"
 
-[tool.poetry.dev-dependencies]
-pre-commit = "^2.15.0"
-
-[tool.poetry.scripts]
-check-pyjson5 = "pre_commit_hooks.check_pyjson5:main"
+[dependency-groups]
+dev = [
+    "pre-commit>=2.15.0",
+    "pytest>=7.0",
+]
 
 [build-system]
-requires = ["poetry-core>=1.0.0"]
-build-backend = "poetry.core.masonry.api"
+requires = ["uv_build>=0.13.6,<0.14"]
+build-backend = "uv_build"
+
+[tool.uv.build-backend]
+module-name = "pre_commit_hooks"
+module-root = "pypackages"
+
+[tool.pytest.ini_options]
+pythonpath = ["pypackages"]
+testpaths = ["tests"]
+
+[tool.ruff]
+target-version = "py311"
+line-length = 79
+src = ["pypackages"]
+
+[tool.ruff.lint]
+select = ["E", "W", "F", "I", "UP", "B"]
+
+[tool.ruff.lint.per-file-ignores]
+# The source-attribution URL on the first line can't be wrapped.
+"pypackages/pre_commit_hooks/check_pyjson5.py" = ["E501"]
+
+[tool.ruff.lint.isort]
+force-single-line = true
+
+[tool.ruff.format]
+quote-style = "single"
